@@ -81,6 +81,7 @@ $(document).ready(function () {
   menuBtn.on("click", function (e) {
     if (!menuOpen) {
       $(".product-nav-container").addClass("open");
+      menuBtn.addClass("open");
       menuOpen = true;
     } else {
       $(".product-nav-container").removeClass("open final-nav");
