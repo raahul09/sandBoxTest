@@ -514,7 +514,9 @@ img {
     -o-transition: all 0.5s ease-in-out;
     border-bottom: 1px solid #cccccc;
     position: relative;
-
+  }
+  .header .product-nav-container .navbar-nav.nav-second.products-nav .inspiration-nav-item {
+    border: none;
   }
 
   .header .product-nav-container .navbar-nav.nav-second.products-nav .nav-item .main-nav-two-link {

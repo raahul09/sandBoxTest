@@ -18,9 +18,9 @@ $(document).ready(function () {
             <div class="main-nav-one product_">
                 <div class="main-nav-one-link"><a>PRODUCTS</a></div>
                 <ul class="navbar-nav products-nav nav-second" role="list">
-                    <li class="nav-item nav-item-second product-nav-item"><div class="main-nav-two-link"><a class="nav-link nav-second" href="https://www.smeg.com/large-appliances">Major appliances </a></div><div class="navbar-three"><ul role="list">${ navbarArr.nav1.map(a=>{return `<li class="nav-item nav-third"><a class="">${a}</a></li>`}).join('')} </ul></div></li>
-                    <li class="nav-item nav-item-second aesthetic-nav-item"><div class="main-nav-two-link"><a class="nav-link nav-second" href="https://www.smeg.com/small-appliances">Small appliances </a></div><div class="navbar-three"><ul role="list">${ navbarArr.nav2.map(a=>{return `<li class="nav-item nav-third"><a class="">${a}</a></li>`}).join('')} </ul></div></li>
-                    <li class="nav-item nav-item-second inspiration-nav-item"><div class="main-nav-two-link"><a class="nav-link nav-second" href="https://www.smeg.com/special-project">Special projects </a></div><div class="navbar-three"><ul role="list">${ navbarArr.nav3.map(a=>{return `<li class="nav-item nav-third"><a class="">${a}</a></li>`}).join('')} </ul></div></li>
+                    <li class="nav-item nav-item-second product-nav-item"><div class="main-nav-two-link"><a class="nav-link nav-second" href="https://www.smeg.com/large-appliances">Major appliances </a></div><div class="navbar-three"><ul id="navbar-three-target" role="list">${ navbarArr.nav1.map(a=>{return `<li class="nav-item nav-third"><a class="">${a}</a></li>`}).join('')} </ul></div></li>
+                    <li class="nav-item nav-item-second aesthetic-nav-item"><div class="main-nav-two-link"><a class="nav-link nav-second" href="https://www.smeg.com/small-appliances">Small appliances </a></div><div class="navbar-three"><ul id="navbar-three-target2" role="list">${ navbarArr.nav2.map(a=>{return `<li class="nav-item nav-third"><a class="">${a}</a></li>`}).join('')} </ul></div></li>
+                    <li class="nav-item nav-item-second inspiration-nav-item"><div class="main-nav-two-link"><a class="nav-link nav-second" href="https://www.smeg.com/special-project">Special projects </a></div><div class="navbar-three"><ul id="navbar-three-target3" role="list">${ navbarArr.nav3.map(a=>{return `<li class="nav-item nav-third"><a class="">${a}</a></li>`}).join('')} </ul></div></li>
                 </ul>
             </div>
         </li>
@@ -45,41 +45,7 @@ $(document).ready(function () {
         }
     })
 
-    // desktop nav
-    $(".main-nav-one.product ").on('click', function () {
-        if (!mainMenu) {
-            $('.product-nav-container').addClass("open");
-            console.log(mainMenu);
-            mainMenu = true;
-        } else {
-            $('.product-nav-container').removeClass("open");
-            $('.navbar-nav.nav-second').removeClass("last-nav-open");
-            $('.nav-progress').removeClass('active-nav')
-            mainMenu = false;
-        }
-    });
-    // level 2 nav product nav
-    if (window.innerWidth <= 767) {
-        $('.navbar-nav.nav-second.products-nav > .nav-item.nav-item-second').on('click', function (e) {
-            $(this).siblings().find('.navbar-three').hide();
-            if (!$(this).hasClass('open')) {
-                $(this).find('.navbar-three').slideDown(500);
-            } else {
-                $(this).find('.navbar-three').slideUp(500);
-            }
-            $(this).siblings().removeClass('open')
-            $(this).toggleClass('open');
-        });
-        $('.nav-item.nav-item-one').on('click', function (e) {
-            let activeText = $(this).find('.main-nav-one-link').text();
-            $('.nav-progress').addClass('active-nav').text(activeText);
-            $(this).find('.navbar-nav.nav-second').addClass("last-nav-open");
-            $('.product-nav-container').addClass("final-nav");
-        })
-    }
-
     /* Swiper Slider for Products */
-
     var slider = new Swiper('.kettles-slider', {
         slidesPerView: 1,
         centeredSlides: true,
@@ -142,5 +108,54 @@ $(document).ready(function () {
     jQuery('body').on('click', '.close', function () {
         jQuery('body').removeClass('modal-loaded');
     });
-    console.log("end....")
+
+
+    // desktop nav
+    $(".main-nav-one.product ").on('click', function () {
+        if (!mainMenu) {
+            $('.product-nav-container').addClass("open");
+        } else {
+            $('.product-nav-container').removeClass("open");
+            $('.navbar-nav.nav-second').removeClass("last-nav-open");
+            $('.nav-progress').removeClass('active-nav');
+        }
+    });
+
+    $('.navbar-nav.nav-second.products-nav > .nav-item.nav-item-second').on('click', function (e) {
+        $(this).siblings().find('.navbar-three').removeClass('show-nav-three');
+        if (!$(this).hasClass('open')) {
+            $(this).find('.navbar-three').addClass('show-nav-three');
+        } else {
+            $(this).find('.navbar-three').removeClass('show-nav-three');
+        }
+        $(this).siblings().removeClass('show-nav-three');
+        $(this).toggleClass('open');
+    });
+
+
+    $('.nav-item.nav-item-one').on('click', function (e) {
+        let activeText = $(this).find('.main-nav-one-link').text();
+        $('.nav-progress').addClass('active-nav').text(activeText);
+        $(this).find('.navbar-nav.nav-second').addClass("last-nav-open");
+        $('.product-nav-container').addClass("final-nav");
+    })
+    //desktop mouseover event
+    $(".main-nav-one.product").on('mouseover', function () {
+        setTimeout(() => {
+            $('.product-nav-container').addClass('open');
+        }, 200);
+    });
+
+    $(".product-nav-container").on('mouseover', function () {
+        $('.product-nav-container').addClass('open');
+    });
+
+    // mouse out
+    $(".main-nav-one.product").on('mouseout', function () {
+        if (!$('.product-nav-container').hasClass('open')) {
+            $(".product-nav-container").on('mouseout', function () {
+                $('.product-nav-container').removeClass('open');
+            });
+        }
+    });
 });
